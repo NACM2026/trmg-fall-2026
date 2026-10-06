@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TRMG Fall 2026 · Clearwater Beach</title>
+<meta name="description" content="Agenda, attendees, hotel map and wifi for the TRMG Fall 2026 Conference, Oct 18–20, Clearwater Beach, FL.">
+<meta name="theme-color" content="#f4f1ea">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="TRMG 2026">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="img/icon-180.png">
+<link rel="icon" type="image/png" href="img/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   EDIT HERE ONLY: settings are in the CONFIG block in the <script> below.
+   ============================================================ */
+:root{
+  --paper:#f4f1ea; --card:#ffffff; --ink:#161616; --muted:#6b6760; --line:#e2ddd2;
+  --red:#E3262B; --navy:#45568A; --teal:#5BBCCB; --orange:#F7841E; --pink:#D6246E; --purple:#6B3F97;
+  --safe-b:env(safe-area-inset-bottom,0px); --safe-t:env(safe-area-inset-top,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Montserrat,system-ui,sans-serif;font-size:15px;line-height:1.45}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+.stripe{display:flex;height:6px}.stripe i{flex:1}
+.stripe i:nth-child(1){background:var(--red)}.stripe i:nth-child(2){background:var(--navy)}.stripe i:nth-child(3){background:var(--teal)}
+.stripe i:nth-child(4){background:var(--orange)}.stripe i:nth-child(5){background:var(--pink)}.stripe i:nth-child(6){background:var(--purple)}
+
+/* header */
+header{padding:calc(14px + var(--safe-t)) 16px 0;max-width:640px;margin:0 auto}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand img{height:44px;width:auto}
+.tag{background:var(--ink);color:#fff;font-size:11px;font-weight:600;line-height:1.25;padding:6px 10px 6px 14px;text-align:right;clip-path:polygon(10px 0,100% 0,100% 100%,10px 100%,0 50%)}
+header .stripe{margin:14px -16px 0}
+
+main{max-width:640px;margin:0 auto;padding:16px 16px calc(96px + var(--safe-b))}
+.view{display:none}.view.on{display:block}
+h2{font-family:"Playfair Display",Georgia,serif;font-size:26px;margin:4px 0 12px;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:13px;margin:-8px 0 14px}
+
+/* now / next */
+.now{background:var(--ink);color:#fff;border-radius:14px;padding:14px 16px;margin-bottom:16px;display:none}
+.now.on{display:block}
+.now small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.now b{display:block;font-size:16px;margin-top:2px}
+.now span{font-size:13px;opacity:.8}
+.now + .now{margin-top:-8px}
+
+/* day tabs */
+.days{display:flex;gap:8px;margin-bottom:14px;position:sticky;top:0;background:var(--paper);padding:8px 0;z-index:5}
+.days button{flex:1;border:1.5px solid var(--ink);background:transparent;border-radius:10px;padding:8px 4px;font-weight:600;font-size:13px;line-height:1.2}
+.days button small{display:block;font-weight:500;font-size:11px;opacity:.7}
+.days button.on{background:var(--ink);color:#fff}
+
+/* agenda rows */
+.slot{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px;width:100%;text-align:left;position:relative;overflow:hidden}
+.slot::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--c,var(--line))}
+.slot .t{flex:0 0 70px;font-size:12px;font-weight:600;color:var(--muted);padding-left:4px;line-height:1.3}
+.slot .b{flex:1;min-width:0}
+.slot .ti{font-weight:600;font-size:15px;line-height:1.3}
+.slot .meta{font-size:12.5px;color:var(--muted);margin-top:3px}
+.slot .sp{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12.5px;font-weight:500}
+.slot .sp img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid var(--ink)}
+.slot .chev{align-self:center;color:var(--muted);font-size:18px}
+.slot.plain{background:transparent;border-style:dashed}
+.slot.plain .ti{font-weight:500}
+.badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:4px;padding:2px 6px;margin-bottom:4px;color:#fff;background:var(--c,var(--ink))}
+.slot.live{box-shadow:0 0 0 2px var(--teal)}
+.slot.past{opacity:.55}
+.sublist{margin:6px 0 0;padding-left:16px;font-size:13px}
+
+/* attendees */
+.search{width:100%;padding:12px 14px;border:1.5px solid var(--ink);border-radius:10px;font:inherit;background:#fff;margin-bottom:10px}
+.chips{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.chips button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 12px;font-size:13px;font-weight:500}
+.chips button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.person{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:6px}
+.av{flex:0 0 40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:14px}
+.person .n{font-weight:600}
+.person .co{font-size:13px;color:var(--muted)}
+.person .em{font-size:12.5px;display:block;margin-top:1px;word-break:break-all}
+.person .ty{margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--orange)}
+.letter{font-family:"Playfair Display",serif;font-size:18px;margin:14px 0 6px}
+.empty{text-align:center;color:var(--muted);padding:32px 12px;border:1.5px dashed var(--line);border-radius:12px;background:#fff}
+.count{font-size:12px;color:var(--muted);margin-bottom:8px}
+
+/* hotel */
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.card h3{margin:0 0 6px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hero{border-radius:14px;overflow:hidden;margin-bottom:12px;position:relative}
+.hero img{display:block;width:100%;height:180px;object-fit:cover}
+.hero div{position:absolute;left:0;right:0;bottom:0;padding:24px 14px 12px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.65));font-weight:600}
+.hero div small{display:block;font-weight:500;opacity:.9}
+.wifi-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.wifi-row:first-of-type{border-top:0}
+.wifi-row b{font-size:17px;word-break:break-all}
+.wifi-row small{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.btn{border:1.5px solid var(--ink);background:var(--ink);color:#fff;border-radius:10px;padding:9px 14px;font-weight:600;font-size:13px;text-decoration:none;display:inline-block;text-align:center}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.map img{width:100%;border-radius:10px;display:block;border:1px solid var(--line)}
+.tbd{color:var(--muted);font-style:italic}
+.links a{display:flex;justify-content:space-between;padding:11px 0;border-top:1px solid var(--line);text-decoration:none;font-weight:500}
+.links a:first-child{border-top:0}
+
+/* bottom nav */
+nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding-bottom:var(--safe-b);z-index:20}
+nav .in{max-width:640px;margin:0 auto;display:flex}
+nav button{flex:1;border:0;background:none;padding:10px 4px 9px;font-size:11px;font-weight:600;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px}
+nav svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav button.on{color:var(--ink)}
+nav button.on svg{stroke:var(--pink)}
+
+/* bottom sheet */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-height:88vh;overflow:auto;background:var(--paper);border-radius:18px 18px 0 0;transform:translateY(100%);transition:transform .25s ease;z-index:41;padding:10px 20px calc(24px + var(--safe-b));max-width:640px;margin:0 auto}
+.sheet.on{transform:none}
+.grab{width:40px;height:5px;border-radius:3px;background:#cfc9bd;margin:0 auto 14px}
+.sheet .x{position:absolute;right:12px;top:10px;border:0;background:#e7e2d7;border-radius:50%;width:32px;height:32px;font-size:18px;line-height:1}
+.sheet h4{font-family:"Playfair Display",serif;font-size:22px;line-height:1.2;margin:4px 40px 6px 0}
+.sheet .when{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:14px}
+.sheet .desc{font-size:14.5px}
+.sheet .who{display:flex;gap:14px;align-items:center;margin:16px 0 10px;padding-top:14px;border-top:1px solid var(--line)}
+.sheet .who img{width:72px;height:72px;border-radius:12px;object-fit:cover;border:2px solid var(--ink);box-shadow:5px 5px 0 #d9d4c9}
+.sheet .who b{display:block;font-size:16px}
+.sheet .who span{font-size:13px;color:var(--muted)}
+.sheet .book{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:12px;font-size:13px}
+.sheet .book img{width:90px;border-radius:6px}
+
+/* splash / install guide */
+.splash{position:fixed;inset:0;z-index:60;background:var(--paper);overflow:auto;display:none}
+.splash.on{display:block}
+.splash .wrap{max-width:460px;margin:0 auto;padding:calc(28px + var(--safe-t)) 22px calc(64px + var(--safe-b));min-height:100%;display:flex;flex-direction:column}
+.splash .logo{width:100%;max-width:340px;margin:8px auto 4px;display:block}
+.splash .stripe{margin:18px 0 20px;border-radius:3px;overflow:hidden}
+.splash h1{font-family:"Playfair Display",serif;font-size:26px;line-height:1.15;margin:0 0 6px;text-align:center}
+.splash .lead{text-align:center;color:var(--muted);margin:0 0 20px;font-size:14px}
+.steps{list-style:none;margin:0 0 20px;padding:0;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px;font-size:14.5px}
+.steps li::before{content:counter(s);flex:0 0 28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+.steps svg{width:20px;height:20px;vertical-align:-4px;stroke:#0a84ff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ostabs{display:flex;gap:6px;justify-content:center;margin-bottom:14px}
+.ostabs button{border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 14px;font-size:13px;font-weight:600}
+.ostabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.splash .go{margin-top:auto;display:flex;flex-direction:column;gap:10px}
+.splash .go .btn{padding:14px;font-size:15px}
+.splash .note{font-size:12px;color:var(--muted);text-align:center}
+.pointer{position:fixed;left:50%;bottom:calc(10px + var(--safe-b));transform:translateX(-50%);font-size:28px;animation:bob 1.2s ease-in-out infinite;display:none;z-index:61}
+@keyframes bob{50%{transform:translate(-50%,6px)}}
+.toast{position:fixed;left:50%;bottom:calc(84px + var(--safe-b));transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:9px 16px;border-radius:99px;font-size:13px;font-weight:600;opacity:0;transition:.2s;z-index:70;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img src="img/trmg-logo.png" alt="TRMG — Transportation Revenue Management Group">
+    <div class="tag">Fall 2026<br>Clearwater Beach, FL</div>
+  </div>
+  <div class="stripe"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</header>
+
+<main>
+  <!-- AGENDA -->
+  <section class="view on" id="v-agenda">
+    <div class="now" id="nowCard"></div>
+    <div class="now" id="nextCard"></div>
+    <div class="days" id="days"></div>
+    <div id="agendaList"></div>
+  </section>
+
+  <!-- ATTENDEES -->
+  <section class="view" id="v-people">
+    <h2>Attendees</h2>
+    <input class="search" id="q" type="search" placeholder="Search name or company" autocomplete="off">
+    <div class="chips" id="chips">
+      <button class="on" data-f="all">All</button>
+      <button data-f="member">Members</button>
+      <button data-f="associate">Associates</button>
+    </div>
+    <div class="count" id="count"></div>
+    <div id="people"></div>
+  </section>
+
+  <!-- HOTEL -->
+  <section class="view" id="v-hotel">
+    <div class="hero">
+      <img src="img/beach.jpg" alt="Beach view at the Sheraton Sand Key">
+      <div id="hotelName"></div>
+    </div>
+    <div class="card" id="wifiCard"></div>
+    <div class="card map" id="mapCard"></div>
+    <div class="card" id="addrCard"></div>
+    <div class="card links" id="linksCard"></div>
+    <div class="btns" style="justify-content:center;margin-bottom:8px">
+      <button class="btn ghost" onclick="openSplash(true)">How to add this app to your home screen</button>
+    </div>
+  </section>
+</main>
+
+<nav><div class="in">
+  <button class="on" data-v="agenda"><svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg>Agenda</button>
+  <button data-v="people"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.6c2.6.2 4.4 1.9 5 4.9"/></svg>Attendees</button>
+  <button data-v="hotel"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Hotel &amp; Wifi</button>
+</div></nav>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet"><div class="grab"></div><button class="x" onclick="closeSheet()" aria-label="Close">×</button><div id="sheetBody"></div></div>
+<div class="toast" id="toast"></div>
+
+<!-- SPLASH: add to home screen -->
+<div class="splash" id="splash"><div class="wrap">
+  <img class="logo" src="img/trmg-logo.png" alt="TRMG">
+  <div class="stripe"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <h1>Welcome to Clearwater Beach!</h1>
+  <p class="lead">Fall 2026 Conference · Oct 18–20<br>Put this app on your home screen so the agenda, attendee list, and wifi are one tap away.</p>
+  <div class="ostabs" id="ostabs">
+    <button data-os="ios">iPhone</button><button data-os="android">Android</button>
+  </div>
+  <ol class="steps" id="steps"></ol>
+  <div class="go">
+    <button class="btn" id="installBtn" style="display:none">Add to Home Screen</button>
+    <button class="btn ghost" id="skipBtn">Continue to the app</button>
+    <div class="note">You can reopen these steps anytime from the Hotel &amp; Wifi tab.</div>
+  </div>
+</div></div>
+<div class="pointer" id="pointer">⬇️</div>
+
+<script>
+/* ============================================================
+   CONFIG — the only section you should need to edit
+   ============================================================ */
+const CONFIG = {
+  // Google Sheet → File → Share → Publish to web → (choose the tab) → CSV → copy link and paste here.
+  // Columns (row 1): Company, First Name, Last Name, Type, Email   (Type = Member or Associate)
+  ROSTER_CSV_URL: "",
+
+  WIFI_NETWORK: "",        // e.g. "Sheraton_Meeting"   — leave "" until you have it
+  WIFI_PASSWORD: "",       // e.g. "TRMG2026"
+
+  HOTEL_MAP_IMG: "",       // e.g. "img/hotel-map.jpg"  — drop the file in /img and put its path here
+
+  HOTEL: {
+    name: "Clearwater Beach Sheraton Resort on Sand Key",
+    address: "1160 Gulf Boulevard, Clearwater, FL 33767",
+  },
+
+  LINKS: [
+    ["Agenda + speaker info (PDF)", "https://www.nacmsw.com/wp-content/uploads/2026/10/TRMG-FALL-26-Agenda-Mktg.pdf"],
+    ["Book your hotel room", "https://www.marriott.com/event-reservations/reservation-link.mi?id=1770751575863&key=GRP&app=resvlink"],
+    ["Credit Managers' Index (CMI) survey", "https://nacm.org/cmi.html"],
+    ["NACM's National Trade Credit Report", "https://www.nacmsw.com/wp-content/uploads/2023/10/NACM_NTCR_May17_sm.pdf"],
+    ["Follow TRMG on LinkedIn", "https://www.linkedin.com/company/trmg-transportation-revenue-management-association/"],
+  ],
+};
+
+/* ============================================================
+   EVENT DATA
+   ============================================================ */
+const SPEAKERS = {
+  wanda: { name:"Wanda Borges, Esq.", org:"Borges & Associates LLC", img:"img/wanda.jpg" },
+  rob:   { name:"Rob Carpenter", org:"VP Compliance, Trucksafe Consulting, LLC and Journalist, FreightWaves", img:"img/rob.jpg",
+    bio:"Rob Carpenter is an independent writer for FreightWaves, \"The Playbook,\" TruckSafe Consulting, Motive, and other companies across the freight, supply chain, risk and highway accident litigation spaces. He is a transportation risk and compliance expert and WHCA member covering White House policy, tariffs, and federal transportation regulation impacting the supply chain. He is an expert in accident analysis, fleet safety, risk and compliance. Rob spends most of his time as an expert witness and risk control consultant specializing in group and sole member captives. Rob is a CDL driver, former broker and fleet owner and spent over 2 decades behind the wheel of a truck across various modes of transport." },
+  paul:  { name:"Paul H. Runko", org:"Author and Advisor to the President & COO of Roadrunner Freight", img:"img/paul.jpg" },
+  chris: { name:"Chris Kuehl, PhD", org:"Armada Corporate Intelligence", img:"img/chris.jpg" },
+};
+
+// kind → color + label.  Times are local Clearwater time (Eastern).
+const KIND = {
+  session:{c:"var(--pink)",l:"Session"}, meal:{c:"var(--orange)",l:"Meal"}, social:{c:"var(--purple)",l:"Social"},
+  meeting:{c:"var(--navy)",l:"Meeting"}, break:{c:"var(--line)",l:"Break"}, general:{c:"var(--teal)",l:"General"},
+  excursion:{c:"var(--teal)",l:"Optional"},
+};
+
+const DAYS = [
+  { d:"2026-10-18", label:"Sunday", short:"Sun · Oct 18", items:[
+    {s:"15:00",e:"16:30",k:"general",t:"Check-in Open"},
+    {s:"15:00",e:"16:00",k:"meeting",t:"Leadership Council Meeting"},
+    {s:"16:00",e:"16:30",k:"meeting",t:"Associate Member Meeting"},
+    {s:"16:45",e:"17:30",k:"session",t:"Using AI to Navigate a Bankruptcy Case",sp:"wanda",
+      desc:"AI is everywhere right now but knowing how to use it well is the real challenge. Join Wanda as she explores <b>how AI can help you navigate the toughest parts of a bankruptcy case</b>: preparing and filing proofs of claim, reviewing and summarizing lengthy motions on critical vendors and other key matters, tracking and analyzing case progress, and building an effective strategy for your participation in the case."},
+    {s:"17:30",e:"19:00",k:"social",t:"Welcome Reception with Associate Members"},
+  ]},
+  { d:"2026-10-19", label:"Monday", short:"Mon · Oct 19", items:[
+    {s:"08:00",e:"09:00",k:"meal",t:"Breakfast with Associate Members"},
+    {s:"09:00",e:"09:30",k:"general",t:"“Welcome to Clearwater, TRMG!” Opening Remarks"},
+    {s:"09:30",e:"10:30",k:"session",t:"Chameleon Carriers: The Shell Game Hiding on Our Highways",sp:"rob",
+      desc:"Chameleon carriers are commercial trucking fleets, often foreign-owned and operated, that shed one identity for another after racking up flagrant safety violations and flouting federal regulations. Investigative reporter Rob Carpenter shares his reporting on Super Ego Holding, a network of trucking and leasing companies based in Serbia and the U.S. that is currently under federal investigation and named in a class action lawsuit. Regulators and former employees call it <b>one of the most notorious chameleon schemes operating today</b>. Rob will unpack how these networks operate and <b>what it means for the credit and order-to-cash professionals tasked with vetting them</b>."},
+    {s:"10:30",e:"10:45",k:"break",t:"Break"},
+    {s:"10:45",e:"12:00",k:"general",t:"Speed Networking"},
+    {s:"12:00",e:"13:00",k:"meal",t:"Lunch with Associate Members"},
+    {s:"13:00",e:"17:00",k:"meeting",t:"Member Discussions",sub:["NMC Best Practices Discussion","NTC Account Discussion","NTLF Account Discussion"],
+      desc:"Afternoon member discussions:<ul class='sublist'><li>NMC Best Practices Discussion</li><li>NTC Account Discussion</li><li>NTLF Account Discussion</li></ul><p>Break from 3:00 – 3:15 pm.</p>"},
+    {s:"15:00",e:"15:15",k:"break",t:"Break"},
+    {s:"18:30",e:"21:30",k:"social",t:"TRMG Associates present… TRMG After Dark!",
+      desc:"After a full day, this is your chance to let loose a little! We’ll have dinner and drinks covered. All you need to do is show up ready to relax, mingle, and enjoy!"},
+  ]},
+  { d:"2026-10-20", label:"Tuesday", short:"Tue · Oct 20", items:[
+    {s:"08:00",e:"09:00",k:"meal",t:"Breakfast with Associate Members"},
+    {s:"09:00",e:"10:00",k:"session",t:"Leading From the Middle",sp:"paul",book:true,
+      desc:"<i>SMILEYBALLS: The Field Book</i> offers a fresh perspective on leadership by shining a light on the middle managers who connect vision with execution. This session explores how trust-building, recognition, and consistent leadership behaviors can improve morale, engagement, and customer outcomes. It also highlights practical approaches to developing people and identifying the often-overlooked signs of organizational health. TRMG members will leave with ideas for building a more human-centered, high-performing culture."},
+    {s:"10:00",e:"10:15",k:"break",t:"Break"},
+    {s:"10:15",e:"11:15",k:"session",t:"Dollars, Data & Direction",sp:"chris",
+      desc:"Join Chris for this session offering a fresh <b>snapshot of today’s economic landscape</b>. We’ll cover the numbers that matter, the trends worth watching, and what they may signal for the months ahead. A concise update with just the right mix of insight and energy!"},
+    {s:"12:00",e:"15:30",k:"excursion",t:"Optional Excursion: Dolphin Boat Tour",desc:"Optional excursion — <b>lunch included!</b>"},
+  ]},
+];
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store = { get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}} };
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("on"),1600)}
+function fmt(hm){let [h,m]=hm.split(":").map(Number);const ap=h>=12?"pm":"am";h=h%12||12;return `${h}:${String(m).padStart(2,"0")} ${ap}`}
+// current time in Clearwater as "YYYY-MM-DDTHH:MM" (add ?now=2026-10-19T09:45 to the URL to test)
+function nowET(){
+  const o=new URLSearchParams(location.search).get("now"); if(o) return o;
+  const p=Object.fromEntries(new Intl.DateTimeFormat("en-CA",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+  return `${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}`;
+}
+const allItems = () => DAYS.flatMap((d,di)=>d.items.map((it,ii)=>({...it,day:d,di,ii,start:`${d.d}T${it.s}`,end:`${d.d}T${it.e}`})));
+
+/* ============================================================
+   AGENDA
+   ============================================================ */
+let curDay = 0;
+function pickDefaultDay(){ const today=nowET().slice(0,10); const i=DAYS.findIndex(d=>d.d===today); return i<0?0:i; }
+
+function renderDays(){
+  $("#days").innerHTML = DAYS.map((d,i)=>`<button class="${i===curDay?"on":""}" data-i="${i}">${d.label}<small>Oct ${d.d.slice(8)}</small></button>`).join("");
+  $("#days").querySelectorAll("button").forEach(b=>b.onclick=()=>{curDay=+b.dataset.i;renderDays();renderAgenda();});
+}
+function renderAgenda(){
+  const n=nowET(), d=DAYS[curDay];
+  $("#agendaList").innerHTML = d.items.map((it,ii)=>{
+    const st=`${d.d}T${it.s}`, en=`${d.d}T${it.e}`, K=KIND[it.k];
+    const live = n>=st && n<en, past = n>=en;
+    const sp = it.sp && SPEAKERS[it.sp];
+    const clickable = !!(it.desc || sp);
+    return `<button class="slot ${clickable?"":"plain"} ${live?"live":""} ${past?"past":""}" style="--c:${K.c}" ${clickable?`data-i="${ii}"`:"disabled"}>
+      <div class="t">${fmt(it.s)}<br><span style="font-weight:500">${fmt(it.e)}</span></div>
+      <div class="b">
+        ${live?`<span class="badge" style="--c:var(--teal)">Happening now</span><br>`:(it.k==="session"||it.k==="excursion"||it.k==="social")?`<span class="badge" style="--c:${K.c}">${K.l}</span><br>`:""}
+        <div class="ti">${esc(it.t)}</div>
+        ${it.sub?`<div class="meta">${it.sub.map(esc).join(" · ")}</div>`:""}
+        ${sp?`<div class="sp"><img src="${sp.img}" alt="">${esc(sp.name)}</div>`:""}
+      </div>
+      ${clickable?`<div class="chev">›</div>`:""}
+    </button>`;
+  }).join("");
+  $("#agendaList").querySelectorAll(".slot[data-i]").forEach(b=>b.onclick=()=>openSession(curDay,+b.dataset.i));
+  renderNow();
+}
+function renderNow(){
+  const n=nowET(), items=allItems().filter(i=>i.k!=="break");
+  const live=items.filter(i=>n>=i.start&&n<i.end).sort((a,b)=>b.start.localeCompare(a.start))[0];
+  const next=items.filter(i=>i.start>n).sort((a,b)=>a.start.localeCompare(b.start))[0];
+  const card=(el,label,i)=>{ if(!i){el.classList.remove("on");return;}
+    el.classList.add("on");
+    el.innerHTML=`<small>${label}</small><b>${esc(i.t)}</b><span>${i.day.label} · ${fmt(i.s)} – ${fmt(i.e)}</span>`;
+    el.style.cursor=(i.desc||i.sp)?"pointer":"default";
+    el.onclick=()=>{ if(i.desc||i.sp){ curDay=i.di; renderDays(); renderAgenda(); openSession(i.di,i.ii);} };
+  };
+  const eventStarted = n >= `${DAYS[0].d}T00:00`;
+  card($("#nowCard"),"Happening now",live);
+  card($("#nextCard"),eventStarted?"Up next":"First up · Sunday, Oct 18",next);
+}
+function openSession(di,ii){
+  const d=DAYS[di], it=d.items[ii], sp=it.sp&&SPEAKERS[it.sp], K=KIND[it.k];
+  openSheet(`
+    <span class="badge" style="--c:${K.c}">${K.l}</span>
+    <h4>${esc(it.t)}</h4>
+    <div class="when">${d.label}, Oct ${+d.d.slice(8)} · ${fmt(it.s)} – ${fmt(it.e)}</div>
+    ${it.desc?`<div class="desc">${it.desc}</div>`:""}
+    ${sp?`<div class="who"><img src="${sp.img}" alt=""><div><b>${esc(sp.name)}</b><span>${esc(sp.org)}</span></div></div>
+         ${sp.bio?`<div class="desc">${esc(sp.bio)}</div>`:""}`:""}
+    ${it.book?`<div class="book"><img src="img/book.jpg" alt="SMILEYBALLS: The Field Book"><div><b>SMILEYBALLS: The Field Book</b><br>Building Successful Companies from the Middle Up! — available on Amazon.</div></div>`:""}
+  `);
+}
+
+/* ============================================================
+   ATTENDEES (live from Google Sheet CSV)
+   Privacy: Members show name + company. Associates also show email.
+   ============================================================ */
+let roster = [], filter = "all";
+function parseCSV(txt){
+  const rows=[];let row=[],f="",q=false;
+  for(let i=0;i<txt.length;i++){const c=txt[i];
+    if(q){ if(c==='"'){ if(txt[i+1]==='"'){f+='"';i++;} else q=false; } else f+=c; }
+    else if(c==='"') q=true;
+    else if(c===','){row.push(f);f="";}
+    else if(c==='\n'||c==='\r'){ if(c==='\r'&&txt[i+1]==='\n')i++; row.push(f);rows.push(row);row=[];f=""; }
+    else f+=c;
+  }
+  if(f||row.length){row.push(f);rows.push(row);}
+  return rows.filter(r=>r.some(x=>x.trim()));
+}
+function toPeople(rows){
+  if(!rows.length) return [];
+  const h=rows[0].map(x=>x.trim().toLowerCase());
+  const col=(...names)=>h.findIndex(x=>names.includes(x));
+  const iC=col("company","organization"), iF=col("first name","first"), iL=col("last name","last"), iT=col("type","member type"), iE=col("email","e-mail");
+  return rows.slice(1).map(r=>({
+    company:(r[iC]||"").trim(), first:(r[iF]||"").trim(), last:(r[iL]||"").trim(),
+    type:/assoc|vendor|sponsor/i.test(r[iT]||"")?"associate":"member",
+    email:(r[iE]||"").trim(),
+  })).filter(p=>p.first||p.last)
+    .sort((a,b)=>(a.last+a.first).localeCompare(b.last+b.first));
+}
+async function loadRoster(){
+  const cached=store.get("trmg26-roster");
+  if(cached){ try{roster=JSON.parse(cached);}catch(e){} }
+  renderPeople();
+  if(!CONFIG.ROSTER_CSV_URL) return;
+  try{
+    const url=CONFIG.ROSTER_CSV_URL+(CONFIG.ROSTER_CSV_URL.includes("?")?"&":"?")+"t="+Date.now();
+    const r=await fetch(url,{cache:"no-store"}); if(!r.ok) throw 0;
+    const p=toPeople(parseCSV(await r.text()));
+    if(p.length){ roster=p; store.set("trmg26-roster",JSON.stringify(p)); renderPeople(); }
+  }catch(e){ /* offline: keep cached list */ }
+}
+const AVC=["var(--red)","var(--navy)","var(--teal)","var(--orange)","var(--pink)","var(--purple)"];
+function renderPeople(){
+  const q=$("#q").value.trim().toLowerCase();
+  const list=roster.filter(p=>(filter==="all"||p.type===filter) && (!q || `${p.first} ${p.last} ${p.company}`.toLowerCase().includes(q)));
+  if(!roster.length){
+    $("#count").textContent="";
+    $("#people").innerHTML=`<div class="empty"><b>The attendee list is coming soon.</b><br>Check back closer to the conference.</div>`;
+    return;
+  }
+  const m=roster.filter(p=>p.type==="member").length, a=roster.length-m;
+  $("#count").textContent=`${roster.length} attending · ${m} members · ${a} associates${q||filter!=="all"?` — showing ${list.length}`:""}`;
+  if(!list.length){ $("#people").innerHTML=`<div class="empty">No matches.</div>`; return; }
+  let last="", html="";
+  list.forEach(p=>{
+    const L=(p.last||p.first)[0].toUpperCase();
+    if(L!==last && !q){ html+=`<div class="letter">${L}</div>`; last=L; }
+    const ini=((p.first[0]||"")+(p.last[0]||"")).toUpperCase();
+    const c=AVC[(p.last.charCodeAt(0)||0)%AVC.length];
+    html+=`<div class="person"><div class="av" style="background:${c}">${esc(ini)}</div>
+      <div style="min-width:0"><div class="n">${esc(p.first)} ${esc(p.last)}</div><div class="co">${esc(p.company)}</div>
+      ${p.type==="associate"&&p.email?`<a class="em" href="mailto:${esc(p.email)}">${esc(p.email)}</a>`:""}</div>
+      ${p.type==="associate"?`<span class="ty">Associate</span>`:""}</div>`;
+  });
+  $("#people").innerHTML=html;
+}
+$("#q").addEventListener("input",renderPeople);
+$("#chips").querySelectorAll("button").forEach(b=>b.onclick=()=>{filter=b.dataset.f;$("#chips").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));renderPeople();});
+
+/* ============================================================
+   HOTEL & WIFI
+   ============================================================ */
+function renderHotel(){
+  const H=CONFIG.HOTEL, enc=encodeURIComponent(`${H.name}, ${H.address}`);
+  $("#hotelName").innerHTML=`${esc(H.name)}<small>${esc(H.address)}</small>`;
+  $("#wifiCard").innerHTML = `<h3>Hotel Wifi</h3>` + (CONFIG.WIFI_NETWORK
+    ? `<div class="wifi-row"><div><small>Network</small><b>${esc(CONFIG.WIFI_NETWORK)}</b></div><button class="btn ghost" data-copy="${esc(CONFIG.WIFI_NETWORK)}">Copy</button></div>
+       ${CONFIG.WIFI_PASSWORD?`<div class="wifi-row"><div><small>Password</small><b>${esc(CONFIG.WIFI_PASSWORD)}</b></div><button class="btn" data-copy="${esc(CONFIG.WIFI_PASSWORD)}">Copy</button></div>`:`<div class="wifi-row"><div><small>Password</small><b>None needed</b></div></div>`}`
+    : `<div class="tbd">Wifi details will be posted here before the conference.</div>`);
+  $("#mapCard").innerHTML = `<h3>Hotel Map</h3>` + (CONFIG.HOTEL_MAP_IMG
+    ? `<a href="${esc(CONFIG.HOTEL_MAP_IMG)}" target="_blank" rel="noopener"><img src="${esc(CONFIG.HOTEL_MAP_IMG)}" alt="Hotel meeting space map"></a><div class="sub" style="margin:8px 0 0">Tap the map to open it full size and zoom.</div>`
+    : `<div class="tbd">The hotel map will be posted here before the conference.</div>`);
+  $("#addrCard").innerHTML = `<h3>Getting There</h3><b>${esc(H.name)}</b><br>${esc(H.address)}
+    <div class="btns"><a class="btn" href="https://maps.apple.com/?q=${enc}" target="_blank" rel="noopener">Apple Maps</a>
+    <a class="btn ghost" href="https://www.google.com/maps/search/?api=1&query=${enc}" target="_blank" rel="noopener">Google Maps</a></div>`;
+  $("#linksCard").innerHTML = `<h3>Conference Links</h3>` + CONFIG.LINKS.map(([t,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}<span>›</span></a>`).join("");
+  document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{
+    try{await navigator.clipboard.writeText(b.dataset.copy);toast("Copied");}catch(e){toast(b.dataset.copy);}
+  });
+}
+
+/* ============================================================
+   SHEET + NAV
+   ============================================================ */
+function openSheet(html){ $("#sheetBody").innerHTML=html; $("#sheet").scrollTop=0; $("#sheet").classList.add("on"); $("#scrim").classList.add("on"); }
+function closeSheet(){ $("#sheet").classList.remove("on"); $("#scrim").classList.remove("on"); }
+$("#scrim").onclick=closeSheet;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheet();});
+(function swipe(){ let y0=null; const s=$("#sheet");
+  s.addEventListener("touchstart",e=>{ y0=s.scrollTop<=0?e.touches[0].clientY:null; },{passive:true});
+  s.addEventListener("touchend",e=>{ if(y0!==null && e.changedTouches[0].clientY-y0>90) closeSheet(); y0=null; });
+})();
+function show(v){
+  document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+v));
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+  window.scrollTo(0,0); history.replaceState(null,"","#"+v);
+}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.v));
+
+/* ============================================================
+   SPLASH — "Add to Home Screen" guide
+   Shows on first visit in a browser. Never shows once installed.
+   ============================================================ */
+const UA=navigator.userAgent;
+const isIOS=/iPhone|iPad|iPod/.test(UA)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+const isAndroid=/Android/.test(UA);
+const isStandalone=window.matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+const iosNotSafari=isIOS && /CriOS|FxiOS|EdgiOS|GSA\//.test(UA);
+let deferredPrompt=null;
+const SHARE_ICON=`<svg viewBox="0 0 24 24"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5"/><path d="M8 10H6a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1h-2"/></svg>`;
+const PLUS_ICON=`<svg viewBox="0 0 24 24" style="stroke:#161616"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></svg>`;
+const DOTS=`<b style="font-size:18px;line-height:0">⋮</b>`;
+const STEPS={
+  ios:[
+    iosNotSafari?`For the best result, open this page in <b>Safari</b> (copy the link, then paste it in Safari).`:`Make sure you're in <b>Safari</b>.`,
+    `Tap the <b>Share</b> button ${SHARE_ICON} — at the bottom of the screen (or top right on iPad). On newer iPhones you may need to tap <b>•••</b> first.`,
+    `Scroll down and tap <b>Add to Home Screen</b> ${PLUS_ICON}`,
+    `Tap <b>Add</b>. The <b>TRMG 2026</b> icon is now on your home screen — open it from there.`,
+  ],
+  android:[
+    `Open this page in <b>Chrome</b>.`,
+    `Tap the <b>menu</b> ${DOTS} in the top-right corner.`,
+    `Tap <b>Add to Home screen</b> (or <b>Install app</b>).`,
+    `Tap <b>Add</b> / <b>Install</b>. Open the <b>TRMG 2026</b> icon from your home screen.`,
+  ],
+};
+function setOS(os){
+  $("#ostabs").querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.os===os));
+  $("#steps").innerHTML=STEPS[os].map(s=>`<li><div>${s}</div></li>`).join("");
+  $("#installBtn").style.display=(os==="android"&&deferredPrompt)?"block":"none";
+  $("#pointer").style.display=(os==="ios"&&isIOS&&!iosNotSafari&&window.innerWidth<700)?"block":"none";
+}
+$("#ostabs").querySelectorAll("button").forEach(b=>b.onclick=()=>setOS(b.dataset.os));
+function openSplash(force){
+  if(isStandalone && !force) return;
+  $("#splash").classList.add("on");
+  setOS(isAndroid?"android":"ios");
+}
+function closeSplash(){ $("#splash").classList.remove("on"); $("#pointer").style.display="none"; store.set("trmg26-splash","seen"); }
+$("#skipBtn").onclick=closeSplash;
+window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferredPrompt=e; if($("#splash").classList.contains("on")) setOS("android"); });
+$("#installBtn").onclick=async()=>{ if(!deferredPrompt)return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; closeSplash(); };
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+curDay=pickDefaultDay();
+renderDays(); renderAgenda(); renderHotel(); loadRoster();
+const h=location.hash.slice(1); if(["agenda","people","hotel"].includes(h)) show(h);
+if(!isStandalone && store.get("trmg26-splash")!=="seen") openSplash();
+setInterval(()=>{renderAgenda();},60000);
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden){ renderAgenda(); loadRoster(); } });
+</script>
+</body>
+</html>
