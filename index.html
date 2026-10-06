@@ -196,6 +196,13 @@ nav button.on svg{stroke:var(--pink)}
     <div id="people"></div>
   </section>
 
+  <!-- MAP -->
+  <section class="view" id="v-map">
+    <h2>Hotel Map</h2>
+    <div class="sub">Clearwater Beach Sheraton Resort on Sand Key</div>
+    <div class="card map" id="mapCard"></div>
+  </section>
+
   <!-- HOTEL -->
   <section class="view" id="v-hotel">
     <div class="hero">
@@ -203,7 +210,6 @@ nav button.on svg{stroke:var(--pink)}
       <div id="hotelName"></div>
     </div>
     <div class="card" id="wifiCard"></div>
-    <div class="card map" id="mapCard"></div>
     <div class="card" id="addrCard"></div>
     <div class="card links" id="linksCard"></div>
     <div class="btns" style="justify-content:center;margin-bottom:8px">
@@ -215,6 +221,7 @@ nav button.on svg{stroke:var(--pink)}
 <nav><div class="in">
   <button class="on" data-v="agenda"><svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9h18M8 2.5v4M16 2.5v4"/></svg>Agenda</button>
   <button data-v="people"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.6c2.6.2 4.4 1.9 5 4.9"/></svg>Attendees</button>
+  <button data-v="map"><svg viewBox="0 0 24 24"><path d="M9 4 3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>Map</button>
   <button data-v="hotel"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Hotel &amp; Wifi</button>
 </div></nav>
 
@@ -494,7 +501,7 @@ function renderHotel(){
     ? `<div class="wifi-row"><div><small>Network</small><b>${esc(CONFIG.WIFI_NETWORK)}</b></div><button class="btn ghost" data-copy="${esc(CONFIG.WIFI_NETWORK)}">Copy</button></div>
        ${CONFIG.WIFI_PASSWORD?`<div class="wifi-row"><div><small>Password</small><b>${esc(CONFIG.WIFI_PASSWORD)}</b></div><button class="btn" data-copy="${esc(CONFIG.WIFI_PASSWORD)}">Copy</button></div>`:`<div class="wifi-row"><div><small>Password</small><b>None needed</b></div></div>`}`
     : `<div class="tbd">Wifi details will be posted here before the conference.</div>`);
-  $("#mapCard").innerHTML = `<h3>Hotel Map</h3>` + (CONFIG.HOTEL_MAP_IMG
+  $("#mapCard").innerHTML = (CONFIG.HOTEL_MAP_IMG
     ? `<img src="${esc(CONFIG.HOTEL_MAP_IMG)}" alt="Hotel property map" onclick="openMap()" style="cursor:zoom-in"><div class="sub" style="margin:8px 0 0">Tap the map to view full screen and zoom.</div>`
     : `<div class="tbd">The hotel map will be posted here before the conference.</div>`);
   $("#addrCard").innerHTML = `<h3>Getting There</h3><b>${esc(H.name)}</b><br>${esc(H.address)}
@@ -576,7 +583,7 @@ $("#installBtn").onclick=async()=>{ if(!deferredPrompt)return; deferredPrompt.pr
    ============================================================ */
 curDay=pickDefaultDay();
 renderDays(); renderAgenda(); renderHotel(); loadRoster();
-const h=location.hash.slice(1); if(["agenda","people","hotel"].includes(h)) show(h);
+const h=location.hash.slice(1); if(["agenda","people","map","hotel"].includes(h)) show(h);
 if(!isStandalone && store.get("trmg26-splash")!=="seen") openSplash();
 setInterval(()=>{renderAgenda();},60000);
 document.addEventListener("visibilitychange",()=>{ if(!document.hidden){ renderAgenda(); loadRoster(); } });
