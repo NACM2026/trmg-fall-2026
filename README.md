@@ -7,7 +7,7 @@ Live at: https://<nacm-github-account>.github.io/trmg-fall-2026/
   Columns: `Company, First Name, Last Name, Type, Email` (Type = Member or Associate).
   Members show name + company; Associates also show email. Sheet edits appear in the app automatically (Google refreshes its published copy every ~5 min).
 - **Wifi:** fill in `WIFI_NETWORK` and `WIFI_PASSWORD`.
-- **Hotel map:** upload the image to `/img` (e.g. `img/hotel-map.jpg`) and set `HOTEL_MAP_IMG: "img/hotel-map.jpg"`.
+- **Hotel map:** upload the image next to index.html (e.g. `hotel-map.jpg`) and set `HOTEL_MAP_IMG: "hotel-map.jpg"`.
 - **Agenda changes:** edit the `DAYS` list (24-hour times, Eastern).
 
 ## Testing
