@@ -752,7 +752,7 @@ function openSplash(force){
   $("#splash").classList.add("on");
   setOS(isAndroid?"android":"ios");
 }
-function closeSplash(){ $("#splash").classList.remove("on"); $("#pointer").style.display="none"; store.set("trmg26-splash","seen"); }
+function closeSplash(){ $("#splash").classList.remove("on"); $("#pointer").style.display="none"; }
 $("#skipBtn").onclick=closeSplash;
 window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferredPrompt=e; if($("#splash").classList.contains("on")) setOS("android"); });
 $("#installBtn").onclick=async()=>{ if(!deferredPrompt)return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; closeSplash(); };
@@ -763,7 +763,9 @@ $("#installBtn").onclick=async()=>{ if(!deferredPrompt)return; deferredPrompt.pr
 curDay=pickDefaultDay();
 renderDays(); renderAgenda(); renderHotel(); renderNotes(); loadRoster();
 const h=location.hash.slice(1); if(["agenda","people","notes","map","hotel"].includes(h)) show(h);
-if(!isStandalone && store.get("trmg26-splash")!=="seen") openSplash();
+// Show the home-screen guide every time the link is opened in a phone browser.
+// Never shows once they open it from the home-screen icon (standalone), or on desktop computers.
+if(!isStandalone && (isIOS || isAndroid)) openSplash();
 setInterval(()=>{renderAgenda();},60000);
 document.addEventListener("visibilitychange",()=>{ if(!document.hidden){ renderAgenda(); loadRoster(); } });
 </script>
