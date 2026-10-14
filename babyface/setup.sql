@@ -45,6 +45,8 @@ create policy "read state"   on public.game_state    for select to anon, authent
 create policy "read answers" on public.round_answers for select to anon, authenticated using (true);
 create policy "read votes"   on public.votes         for select to anon, authenticated using (true);
 -- No insert/update/delete policies: all writes go through the functions below.
+grant usage on schema public to anon, authenticated;
+grant select on public.game_state, public.round_answers, public.votes to anon, authenticated;
 
 -- ---------- Phone: cast a vote ----------
 create or replace function public.cast_vote(p_device text, p_team text, p_round int, p_choice text)

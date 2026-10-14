@@ -9,6 +9,10 @@ window.GAME_CONFIG = {
   supabaseUrl: "https://lbslumqezhxcebojmpip.supabase.co",
   supabaseKey: "sb_publishable_IFEZmvF1Jq3ZFxmq3jJWbg_YLtLFg23",
 
+  // Full web address of play.html on GitHub Pages. Leave "" to build it automatically
+  // from wherever presenter.html is opened (works as long as you open the GitHub link).
+  playUrl: "",
+
   // Where the winning team picks up gift cards (shown on the final screen + phones)
   prizeNote: "Show this screen at the TRMG registration desk to claim your gift card.",
 
