@@ -72,7 +72,9 @@ h1{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:34px;l
   if (API.demo) { const d=document.createElement("div"); d.className="demo"; d.textContent="DEMO"; document.body.appendChild(d); }
 
   // ---- team ----
-  const urlTeam = new URLSearchParams(location.search).get("team");
+  const qs = new URLSearchParams(location.search);
+  if (qs.has("newphone")) { DS.del("tbf_team"); DS.del("tbf_votes"); DS.del("tbf_device"); }  // testing: act like a brand-new phone
+  const urlTeam = qs.get("team");
   let team = DS.get("tbf_team"), teamNote = "";
   if (team && !T[team]) team = null;
   if (!team && T[urlTeam]) { team = urlTeam; DS.set("tbf_team", team); }
@@ -93,7 +95,7 @@ h1{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:34px;l
   const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
   function pickTeam(){
-    app.innerHTML = '<h1>Which team are you on?</h1><div class="sub">Check your name badge.</div>' +
+    app.innerHTML = '<h1>Which team is on your name badge?</h1><div class="sub">Tap your team to join the game.</div>' +
       Object.keys(T).map(t => '<button class="teampick" data-t="'+t+'" style="background:'+T[t].color+'">'+esc(T[t].name)+'</button>').join("");
     app.querySelectorAll(".teampick").forEach(b => b.onclick = () => { team = b.dataset.t; DS.set("tbf_team", team); applyTeam(); key=""; tick(); });
   }

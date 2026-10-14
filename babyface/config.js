@@ -11,7 +11,7 @@ window.GAME_CONFIG = {
 
   // Full web address of play.html on GitHub Pages. Leave "" to build it automatically
   // from wherever presenter.html is opened (works as long as you open the GitHub link).
-  playUrl: "",
+  playUrl: "https://nacm2026.github.io/trmg-fall-2026/babyface/play.html",
 
   // Where the winning team picks up gift cards (shown on the final screen + phones)
   prizeNote: "Show this screen at the TRMG registration desk to claim your gift card.",
