@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Who's That Baby? — TRMG Presenter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="qr.js"></script>
+<script src="config.js"></script>
+<script src="game-api.js"></script>
+<style>
+:root{
+  --ink:#231F20; --muted:#6B6466; --bg:#FAF8F5; --card:#FFFFFF; --line:#E7E2DC;
+  --red:#E5282A; --navy:#475B8A; --teal:#66BACB; --orange:#F7841E; --pink:#DB2367; --purple:#66439A;
+  --credit:#3F5A8C; --collections:#E8741C; --good:#1E9E5A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#111;overflow:hidden;font-family:Montserrat,system-ui,sans-serif;color:var(--ink)}
+#wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{flex:none;width:1920px;height:1080px;background:var(--bg);position:relative;transform-origin:center center;overflow:hidden}
+.stripe{position:absolute;left:0;right:0;bottom:0;height:18px;display:flex}
+.stripe i{flex:1}
+.stripe i:nth-child(1){background:var(--red)}.stripe i:nth-child(2){background:var(--navy)}.stripe i:nth-child(3){background:var(--teal)}
+.stripe i:nth-child(4){background:var(--orange)}.stripe i:nth-child(5){background:var(--pink)}.stripe i:nth-child(6){background:var(--purple)}
+.slide{position:absolute;inset:0 0 18px 0;padding:56px 80px;display:none}
+.slide.on{display:flex}
+.serif{font-family:"Playfair Display",Georgia,serif}
+.kicker{font-weight:800;letter-spacing:.32em;text-transform:uppercase;font-size:26px;color:var(--muted)}
+.logo-sm{height:70px}
+
+/* Title */
+#s-title{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:34px}
+#s-title img{width:900px}
+#s-title h1{font-size:150px;font-weight:900;line-height:1}
+#s-title .sub{font-size:38px;font-weight:600;color:var(--muted)}
+
+/* Intro */
+#s-intro{flex-direction:column}
+.topbar{display:flex;align-items:center;justify-content:space-between;width:100%;height:80px}
+.intro-body{flex:1;display:flex;align-items:center;gap:90px;padding:0 20px}
+.headshot{width:600px;height:600px;border-radius:50%;object-fit:cover;object-position:center 25%;border:14px solid #fff;box-shadow:0 18px 50px rgba(0,0,0,.15);flex:none}
+.intro-text{flex:1}
+.intro-text h2{font-size:104px;font-weight:900;line-height:1.02}
+.intro-text .co{font-size:44px;font-weight:700;color:var(--navy);margin-top:14px}
+.eo{margin-top:60px}
+.eo .lbl{font-size:30px;font-weight:800;letter-spacing:.25em;text-transform:uppercase;color:var(--pink)}
+.eo .pair{display:flex;align-items:stretch;gap:26px;margin-top:20px}
+.eo .opt{flex:1;background:var(--card);border:3px solid var(--line);border-radius:22px;padding:30px 30px;font-size:44px;font-weight:700;line-height:1.15;display:flex;align-items:center}
+.eo .or{align-self:center;font-family:"Playfair Display",serif;font-weight:900;font-size:56px;font-style:italic}
+
+/* Join */
+.sjoin{padding:0!important}
+.jpanel{width:860px;flex:none;background:var(--c);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:70px 80px}
+.jpanel .kicker{color:rgba(255,255,255,.8)}
+.jpanel h2{font-size:150px;font-weight:900;line-height:.95;margin-top:22px}
+.jpanel .only{font-size:44px;font-weight:700;line-height:1.25;margin-top:44px}
+.jpanel .only b{background:#fff;color:var(--c);padding:2px 16px;border-radius:10px;white-space:nowrap}
+.jright{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+.jright img.logo-sm{height:80px}
+.qr{width:700px;height:700px;display:flex;align-items:center;justify-content:center;border:14px solid var(--c);border-radius:28px;background:#fff}
+.qr img,.qr canvas{width:640px!important;height:640px!important;image-rendering:pixelated}
+.jright .url{font-size:20px;color:var(--muted);word-break:break-all;max-width:820px;text-align:center}
+.jright .scan{font-size:40px;font-weight:800;color:var(--c)}
+
+/* Round — baby photo gets most of the screen */
+#s-round{padding:28px 40px;gap:50px;align-items:stretch}
+.babybox{flex:1;display:flex;align-items:center;justify-content:center;min-width:0}
+.photo{position:relative;display:inline-block;line-height:0}
+.photo img.baby{max-width:1150px;max-height:990px;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.25);border:10px solid #fff;background:#fff}
+.photo img.now{position:absolute;right:-40px;bottom:-24px;width:340px;height:340px;border-radius:50%;object-fit:cover;object-position:center 25%;border:12px solid var(--good);box-shadow:0 14px 40px rgba(0,0,0,.3);transform:scale(0);transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.revealed .photo img.now{transform:scale(1)}
+.round-right{width:640px;flex:none;display:flex;flex-direction:column;justify-content:center}
+.round-right .kicker{font-size:22px}
+.board{display:flex;gap:12px;margin-top:16px}
+.pill{flex:1;display:flex;align-items:center;gap:12px;background:var(--card);border-radius:999px;padding:8px 22px 8px 10px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.pill .dot{width:36px;height:36px;border-radius:50%;background:var(--c);flex:none}
+.pill .nm{font-size:18px;font-weight:800;color:var(--c);text-transform:uppercase;letter-spacing:.06em;flex:1}
+.pill .pts{font-size:40px;font-weight:800;text-align:right}
+.round-right h2{font-size:68px;font-weight:900;line-height:1;margin-top:34px}
+.opts{display:grid;grid-template-columns:1fr;gap:12px;margin-top:24px}
+.ropt{background:var(--card);border:4px solid var(--line);border-radius:20px;padding:14px 20px;display:flex;gap:20px;align-items:center;transition:all .35s}
+.ropt .ltr{width:64px;height:64px;flex:none;border-radius:14px;background:var(--ink);color:#fff;font-size:38px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.ropt .n{font-size:36px;font-weight:800;line-height:1.1}
+.ropt .c{font-size:19px;font-weight:600;color:var(--muted);margin-top:2px}
+.revealed .ropt{opacity:.25;transform:scale(.97)}
+.revealed .ropt.right{opacity:1;transform:scale(1.03);border-color:var(--good);background:#EAF7F0}
+.revealed .ropt.right .ltr{background:var(--good)}
+.status{margin-top:26px;min-height:140px}
+.status .msg{font-size:28px;font-weight:700;color:var(--muted)}
+.counts{display:flex;gap:14px}
+.cnt{flex:1;border-radius:18px;padding:14px 20px;background:var(--card);border-left:14px solid var(--c)}
+.cnt .k{font-size:17px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--c)}
+.cnt .v{font-size:50px;font-weight:800;line-height:1.1}
+.cnt .v small{font-size:20px;font-weight:600;color:var(--muted)}
+.cnt .v small.blk{display:block;line-height:1.3}
+.live{display:inline-flex;align-items:center;gap:12px;font-size:26px;font-weight:800;color:var(--red);margin-bottom:14px;letter-spacing:.12em}
+.live:before{content:"";width:18px;height:18px;border-radius:50%;background:var(--red);animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.2}}
+
+/* Final */
+#s-final{flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#s-final .kicker{margin-bottom:20px}
+#s-final h2{font-size:120px;font-weight:900;line-height:1}
+.finals{display:flex;gap:70px;margin-top:60px}
+.fcard{width:620px;border-radius:30px;background:var(--card);padding:40px;border-top:22px solid var(--c);box-shadow:0 14px 40px rgba(0,0,0,.08);transition:all .6s}
+.fcard h3{font-size:54px;font-weight:900;color:var(--c)}
+.fcard .big{font-size:150px;font-weight:900;line-height:1.05}
+.fcard .sm{font-size:26px;font-weight:600;color:var(--muted)}
+.fcard.win{transform:scale(1.08);box-shadow:0 0 0 10px var(--c),0 30px 80px rgba(0,0,0,.2)}
+.fcard.lose{opacity:.45;transform:scale(.94)}
+.hidden-score .fcard .big{filter:blur(22px)}
+#prize{font-size:36px;font-weight:700;margin-top:50px;min-height:50px}
+.confetti{position:absolute;top:-30px;width:16px;height:28px;border-radius:3px;animation:fall linear forwards;pointer-events:none}
+@keyframes fall{to{transform:translateY(1150px) rotate(720deg)}}
+
+/* Controls */
+#ctrl{position:fixed;right:14px;bottom:14px;display:flex;gap:8px;align-items:center;opacity:.25;transition:opacity .2s;z-index:10;font-family:Montserrat,sans-serif}
+#ctrl:hover{opacity:1}
+#ctrl button{font:700 14px Montserrat,sans-serif;padding:9px 14px;border-radius:10px;border:0;background:#222;color:#fff;cursor:pointer}
+#ctrl .info{font:600 13px Montserrat,sans-serif;color:#fff;background:#222;padding:9px 12px;border-radius:10px}
+#ctrl button.warn{background:#9b1c1c}
+#pinbox{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:20}
+#pinbox.on{display:flex}
+#pinbox form{background:#fff;padding:34px;border-radius:18px;width:380px;text-align:center}
+#pinbox h3{font:800 22px Montserrat,sans-serif;margin-bottom:6px}
+#pinbox p{font:500 14px Montserrat,sans-serif;color:#666;margin-bottom:16px}
+#pinbox input{font:700 22px Montserrat,sans-serif;width:100%;padding:12px;border:2px solid #ccc;border-radius:10px;text-align:center}
+#pinbox button{margin-top:14px;width:100%;padding:12px;border:0;border-radius:10px;background:#231F20;color:#fff;font:800 16px Montserrat,sans-serif;cursor:pointer}
+#toast{position:fixed;left:50%;top:18px;transform:translateX(-50%);background:#9b1c1c;color:#fff;font:700 15px Montserrat,sans-serif;padding:10px 18px;border-radius:10px;display:none;z-index:30}
+.demo-tag{position:absolute;top:16px;left:50%;transform:translateX(-50%);background:var(--pink);color:#fff;font-weight:800;font-size:18px;padding:6px 16px;border-radius:999px;letter-spacing:.1em}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage">
+
+  <section class="slide" id="s-title">
+    <img src="images/logo.png" alt="TRMG — Transportation Revenue Management Group">
+    <h1 class="serif" id="t-title"></h1>
+    <div class="sub" id="t-sub"></div>
+  </section>
+
+  <section class="slide" id="s-intro">
+    <div class="topbar"><img class="logo-sm" src="images/logo.png" alt="TRMG"><div class="kicker" id="i-count"></div></div>
+    <div class="intro-body">
+      <img class="headshot" id="i-photo" alt="">
+      <div class="intro-text">
+        <h2 class="serif" id="i-name"></h2>
+        <div class="co" id="i-co"></div>
+        <div class="eo">
+          <div class="lbl">Either / Or — pick one &amp; tell us why</div>
+          <div class="pair"><div class="opt" id="i-a"></div><div class="or">or</div><div class="opt" id="i-b"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide sjoin" id="s-join-credit" style="--c:var(--credit)">
+    <div class="jpanel"><div class="kicker">Grab your phone &amp; join your team</div><h2 class="serif" id="j-credit-name"></h2>
+      <div class="only">Only scan this code if your name badge says <b id="j-credit-badge"></b></div></div>
+    <div class="jright"><img class="logo-sm" src="images/logo.png" alt="TRMG"><div class="scan">Point your camera here</div><div class="qr" id="qr-credit"></div><div class="url" id="u-credit"></div></div>
+  </section>
+  <section class="slide sjoin" id="s-join-collections" style="--c:var(--collections)">
+    <div class="jpanel"><div class="kicker">Grab your phone &amp; join your team</div><h2 class="serif" id="j-collections-name"></h2>
+      <div class="only">Only scan this code if your name badge says <b id="j-collections-badge"></b></div></div>
+    <div class="jright"><img class="logo-sm" src="images/logo.png" alt="TRMG"><div class="scan">Point your camera here</div><div class="qr" id="qr-collections"></div><div class="url" id="u-collections"></div></div>
+  </section>
+
+  <section class="slide" id="s-round">
+    <div class="round-body" id="r-body" style="display:contents">
+      <div class="babybox"><div class="photo"><img class="baby" id="r-baby" alt="Baby photo"><img class="now" id="r-now" alt=""></div></div>
+      <div class="round-right">
+        <div class="kicker" id="r-count"></div>
+        <div class="board">
+          <div class="pill" style="--c:var(--credit)"><span class="dot"></span><span class="nm" id="b-credit-name"></span><span class="pts" id="b-credit">0</span></div>
+          <div class="pill" style="--c:var(--collections)"><span class="dot"></span><span class="nm" id="b-coll-name"></span><span class="pts" id="b-collections">0</span></div>
+        </div>
+        <h2 class="serif">Who's this baby?</h2>
+        <div class="opts" id="r-opts"></div>
+        <div class="status" id="r-status"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="s-final">
+    <div class="kicker">Final Score</div>
+    <h2 class="serif" id="f-head">And the winner is…</h2>
+    <div class="finals hidden-score" id="f-cards">
+      <div class="fcard" id="f-credit" style="--c:var(--credit)"><h3></h3><div class="big">0</div><div class="sm"></div></div>
+      <div class="fcard" id="f-collections" style="--c:var(--collections)"><h3></h3><div class="big">0</div><div class="sm"></div></div>
+    </div>
+    <div id="prize"></div>
+  </section>
+
+  <div class="stripe"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</div></div>
+
+<div id="ctrl">
+  <span class="info" id="c-info"></span>
+  <button id="c-prev" title="Back (←)">◀</button>
+  <button id="c-next" title="Next (→ / Space)">Next ▶</button>
+  <button id="c-full" title="Fullscreen (F)">⛶</button>
+  <button id="c-reset" class="warn" title="Clear all votes and start over">Reset game</button>
+</div>
+<div id="pinbox"><form id="pinform"><h3>Host PIN</h3><p>Enter the host PIN to run the game.</p><input id="pin" type="password" autocomplete="off" required><button type="submit">Start</button></form></div>
+<div id="toast"></div>
+
+<script>
+(function(){
+  const C = window.GAME_CONFIG, API = window.GameAPI, P = C.people, T = C.teams;
+  const $ = id => document.getElementById(id);
+  const LETTERS = ["A","B","C","D"];
+  const ids = Object.keys(P);
+
+  // ---- scale 1920x1080 stage to window ----
+  function fit(){ const s = Math.min(innerWidth/1920, innerHeight/1080); $("stage").style.transform = "scale("+s+")"; }
+  addEventListener("resize", fit); fit();
+  if (API.demo) { const d = document.createElement("div"); d.className="demo-tag"; d.textContent="DEMO MODE"; $("stage").appendChild(d); }
+
+  // ---- slide list ----
+  const slides = [{type:"title"}];
+  ids.forEach((id,i) => slides.push({type:"intro", id, i}));
+  slides.push({type:"join", team:"credit"}); slides.push({type:"join", team:"collections"});
+  C.rounds.forEach((r,i) => slides.push({type:"round", n:i+1, r}));
+  slides.push({type:"final"});
+
+  let idx = +(API.localStore.get("tbf_slide") || 0); if (!(idx>=0 && idx<slides.length)) idx = 0;
+  let pin = API.localStore.get("tbf_pin") || "";
+  let state = {round:0,status:"idle"}, answers = {}, scores = API.summarize([]), finalShown = false, busy = false;
+
+  // ---- static text ----
+  $("t-title").textContent = C.title; $("t-sub").textContent = C.eventName;
+  ["credit","collections"].forEach(t => { $("j-"+t+"-name").textContent = T[t].name; $("j-"+t+"-badge").textContent = T[t].name.replace(/^Team /,"").toUpperCase(); });
+  $("b-credit-name").textContent = T.credit.name.replace(/^Team /,""); $("b-coll-name").textContent = T.collections.name.replace(/^Team /,"");
+  document.documentElement.style.setProperty("--credit", T.credit.color);
+  document.documentElement.style.setProperty("--collections", T.collections.color);
+  ["credit","collections"].forEach(t => { const f=$("f-"+t); f.querySelector("h3").textContent = T[t].name; });
+
+  // ---- QR codes (built from wherever this page is hosted) ----
+  ["credit","collections"].forEach(t => {
+    const u = new URL("play.html", location.href); u.search = "?team="+t + (API.demo ? "&demo" : "");
+    $("u-"+t).textContent = u.href;
+    try { window.drawQR($("qr-"+t), u.href, 1280); }
+    catch(e){ $("qr-"+t).textContent = "QR code didn't load — share the link below."; }
+  });
+
+  // ---- helpers ----
+  function toast(msg){ const t=$("toast"); t.textContent=msg; t.style.display="block"; clearTimeout(toast.h); toast.h=setTimeout(()=>t.style.display="none",4000); }
+  function askPin(){ $("pinbox").classList.add("on"); setTimeout(()=>$("pin").focus(),50); }
+  $("pinform").addEventListener("submit", e => { e.preventDefault(); pin = $("pin").value.trim(); API.localStore.set("tbf_pin", pin); $("pinbox").classList.remove("on"); });
+  async function host(round, status, answer){
+    if (!pin && !API.demo) { askPin(); return false; }
+    try {
+      const r = await API.hostControl(pin, round, status, answer);
+      if (r === "bad_pin") { toast("Wrong host PIN"); askPin(); return false; }
+      state = {round, status}; return true;
+    } catch(e) { toast("Can't reach the game server — check wifi and try again."); return false; }
+  }
+
+  // ---- render ----
+  function show(){
+    document.querySelectorAll(".slide").forEach(s=>s.classList.remove("on"));
+    const s = slides[idx]; API.localStore.set("tbf_slide", idx);
+    $("c-info").textContent = (idx+1)+"/"+slides.length;
+    if (s.type==="title") $("s-title").classList.add("on");
+    if (s.type==="join") $("s-join-"+s.team).classList.add("on");
+    if (s.type==="intro") {
+      const p = P[s.id];
+      $("i-count").textContent = "Meet our Associate Members · " + (s.i+1) + " of " + ids.length;
+      $("i-photo").src = "images/now/"+s.id+".jpg"; $("i-photo").alt = p.name;
+      $("i-name").textContent = p.name; $("i-co").textContent = p.company;
+      $("i-a").textContent = p.q[0]; $("i-b").textContent = p.q[1];
+      $("s-intro").classList.add("on");
+    }
+    if (s.type==="round") { renderRound(s); $("s-round").classList.add("on"); }
+    if (s.type==="final") { renderFinal(); $("s-final").classList.add("on"); }
+    $("c-next").textContent = nextLabel();
+  }
+
+  function phaseOf(n){
+    if (answers[n]) return "revealed";
+    if (state.round===n && (state.status==="open"||state.status==="closed")) return state.status;
+    return "ready";
+  }
+  function nextLabel(){
+    const s = slides[idx];
+    if (s.type==="round") return {ready:"Open voting ▶", open:"Close voting ▶", closed:"Reveal ▶", revealed:"Next ▶"}[phaseOf(s.n)];
+    if (s.type==="final") return finalShown ? "Done" : "Reveal winner ▶";
+    return "Next ▶";
+  }
+
+  let lastRoundKey = "";
+  function renderRound(s){
+    const n = s.n, r = s.r, ph = phaseOf(n), key = n+"|"+ph;
+    $("r-count").textContent = "Round " + n + " of " + C.rounds.length;
+    if (lastRoundKey.split("|")[0] !== String(n)) {
+      $("r-baby").src = "images/baby/"+r.baby+".jpg";
+      $("r-now").src = "images/now/"+r.baby+".jpg";
+      $("r-opts").innerHTML = r.options.map((id,i)=>
+        '<div class="ropt'+(id===r.baby?' right':'')+'"><div class="ltr">'+LETTERS[i]+'</div><div><div class="n">'+P[id].name+'</div><div class="c">'+P[id].company+'</div></div></div>').join("");
+    }
+    $("r-body").classList.toggle("revealed", ph==="revealed");
+    lastRoundKey = key;
+    updateBoard(); renderStatus(n, ph);
+  }
+
+  function renderStatus(n, ph, counts){
+    const st = $("r-status");
+    if (ph==="ready") { st.innerHTML = '<div class="msg">Voting opens in a moment — phones ready!</div>'; return; }
+    if (ph==="open" || ph==="closed") {
+      const c = counts || renderStatus.last || {credit:0, collections:0};
+      st.innerHTML = (ph==="open" ? '<div class="live">VOTING OPEN</div>' : '<div class="msg" style="margin-bottom:14px">Voting closed… drumroll</div>') +
+        '<div class="counts">' + ["credit","collections"].map(t=>
+          '<div class="cnt" style="--c:var(--'+t+')"><div class="k">'+T[t].name+'</div><div class="v">'+c[t]+' <small>votes in</small></div></div>').join("") + '</div>';
+      return;
+    }
+    // revealed
+    const rc = scores.credit.rounds[n] || {pct:0,voters:0,correct:0}, rl = scores.collections.rounds[n] || {pct:0,voters:0,correct:0};
+    st.innerHTML = '<div class="counts">' + [["credit",rc],["collections",rl]].map(([t,x])=>
+      '<div class="cnt" style="--c:var(--'+t+')"><div class="k">'+T[t].name+'</div><div class="v">'+Math.round(x.pct)+'% <small class="blk">right ('+x.correct+' of '+x.voters+') · +'+Math.round(x.pct)+' pts</small></div></div>').join("") + '</div>';
+  }
+
+  function updateBoard(){ $("b-credit").textContent = scores.credit.points; $("b-collections").textContent = scores.collections.points; }
+
+  function renderFinal(){
+    ["credit","collections"].forEach(t=>{
+      const f = $("f-"+t), x = scores[t];
+      f.querySelector(".big").textContent = x.points;
+      f.querySelector(".sm").textContent = x.correct + " correct guesses";
+      f.classList.toggle("win", finalShown && scores.winner===t);
+      f.classList.toggle("lose", finalShown && scores.winner && scores.winner!==t);
+    });
+    $("f-cards").classList.toggle("hidden-score", !finalShown);
+    if (finalShown) {
+      $("f-head").textContent = scores.winner ? T[scores.winner].name + " wins!" : "It's a tie!";
+      $("prize").textContent = scores.winner ? (scores.tiebreak ? "Tied on points — won on total correct guesses. " : "") + C.prizeNote : "Everybody wins today!";
+    } else { $("f-head").textContent = "And the winner is…"; $("prize").textContent = ""; }
+  }
+
+  function confetti(){
+    const cols = ["#E5282A","#475B8A","#66BACB","#F7841E","#DB2367","#66439A"];
+    for (let i=0;i<160;i++){ const d=document.createElement("div"); d.className="confetti";
+      d.style.left=Math.random()*1920+"px"; d.style.background=cols[i%6];
+      d.style.animationDuration=(2.5+Math.random()*2.5)+"s"; d.style.animationDelay=(Math.random()*1.2)+"s";
+      $("stage").appendChild(d); setTimeout(()=>d.remove(),6500); }
+  }
+
+  // ---- data refresh ----
+  async function refreshScores(){
+    try {
+      const [ans, rows] = await Promise.all([API.getAnswers(), API.getScores()]);
+      answers = {}; ans.forEach(a=>answers[a.round]=a.answer);
+      scores = API.summarize(rows);
+    } catch(e){}
+  }
+  async function poll(){
+    const s = slides[idx];
+    try {
+      if (s.type==="round") {
+        const ph = phaseOf(s.n);
+        if (ph==="open" || ph==="closed") {
+          const v = await API.getVotes(s.n);
+          const c = {credit:0, collections:0}; v.forEach(x=>{ if (x.team in c) c[x.team]++; });
+          renderStatus.last = c; if (slides[idx]===s && phaseOf(s.n)===ph) renderStatus(s.n, ph, c);
+        }
+      }
+    } catch(e){}
+    setTimeout(poll, 1200);
+  }
+
+  // ---- navigation ----
+  async function next(){
+    if (busy) return; busy = true;
+    try {
+      const s = slides[idx];
+      if (s.type==="round") {
+        const ph = phaseOf(s.n);
+        if (ph==="ready") { if (await host(s.n,"open")) { renderStatus.last={credit:0,collections:0}; show(); } return; }
+        if (ph==="open") { if (await host(s.n,"closed")) show(); return; }
+        if (ph==="closed") { if (await host(s.n,"revealed", s.r.baby)) { answers[s.n]=s.r.baby; await refreshScores(); show(); } return; }
+      }
+      if (s.type==="final") {
+        if (!finalShown) { if (await host(C.rounds.length,"final")) { await refreshScores(); finalShown = true; show(); if (scores.winner) confetti(); } }
+        return;
+      }
+      if (idx < slides.length-1) { idx++; if (slides[idx].type==="final") { finalShown=false; await refreshScores(); } show(); }
+    } finally { busy = false; }
+  }
+  function prev(){ if (idx>0) { idx--; if (slides[idx].type!=="final") finalShown=false; show(); } }
+
+  addEventListener("keydown", e => {
+    if ($("pinbox").classList.contains("on")) return;
+    if (["ArrowRight","PageDown"," ","Enter"].includes(e.key)) { e.preventDefault(); next(); }
+    else if (["ArrowLeft","PageUp","Backspace"].includes(e.key)) { e.preventDefault(); prev(); }
+    else if (e.key==="f" || e.key==="F") toggleFull();
+  });
+  function toggleFull(){ if (!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); }
+  $("c-next").onclick = next; $("c-prev").onclick = prev; $("c-full").onclick = toggleFull;
+  $("c-reset").onclick = async () => {
+    if (!confirm("Reset the game? This deletes ALL votes and scores.")) return;
+    if (!pin && !API.demo) { askPin(); return; }
+    try { const r = await API.hostReset(pin); if (r==="bad_pin") { toast("Wrong host PIN"); askPin(); return; } }
+    catch(e){ toast("Can't reach the game server."); return; }
+    answers = {}; scores = API.summarize([]); state={round:0,status:"idle"}; finalShown=false; idx=0; lastRoundKey=""; show();
+  };
+
+  // ---- start ----
+  (async () => {
+    try { state = await API.getState(); } catch(e){ toast("Can't reach the game server — check wifi."); }
+    await refreshScores();
+    if (state.status==="final") finalShown = true;
+    show(); poll();
+    if (!pin && !API.demo) askPin();
+  })();
+})();
+</script>
+</body>
+</html>

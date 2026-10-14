@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FAF8F5">
+<title>Who's That Baby? — TRMG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800;900&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<script src="game-api.js"></script>
+<style>
+:root{--ink:#231F20;--muted:#6B6466;--bg:#FAF8F5;--card:#fff;--line:#E7E2DC;--good:#1E9E5A;--bad:#C2362B;--team:#231F20;
+  --red:#E5282A;--navy:#475B8A;--teal:#66BACB;--orange:#F7841E;--pink:#DB2367;--purple:#66439A}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--ink);font-family:Montserrat,system-ui,sans-serif;min-height:100%}
+header{background:#fff;padding:14px 16px 0;text-align:center}
+header img{width:min(260px,70vw);display:block;margin:0 auto}
+.stripe{display:flex;height:8px;margin-top:12px}.stripe i{flex:1}
+.stripe i:nth-child(1){background:var(--red)}.stripe i:nth-child(2){background:var(--navy)}.stripe i:nth-child(3){background:var(--teal)}
+.stripe i:nth-child(4){background:var(--orange)}.stripe i:nth-child(5){background:var(--pink)}.stripe i:nth-child(6){background:var(--purple)}
+#teambar{background:var(--team);color:#fff;text-align:center;font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:15px;padding:10px 16px;display:none}
+main{max-width:520px;margin:0 auto;padding:22px 16px 40px}
+h1{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:34px;line-height:1.1;text-align:center}
+.sub{color:var(--muted);font-weight:600;text-align:center;margin-top:10px;font-size:16px;line-height:1.4}
+.kick{text-align:center;font-weight:800;letter-spacing:.2em;text-transform:uppercase;font-size:13px;color:var(--muted);margin-bottom:8px}
+.btns{display:grid;gap:12px;margin-top:22px}
+.choice{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);border:3px solid var(--line);border-radius:16px;padding:14px;font:inherit;color:inherit;cursor:pointer;transition:transform .1s,border-color .15s,background .15s}
+.choice:active{transform:scale(.98)}
+.choice .l{width:48px;height:48px;flex:none;border-radius:12px;background:var(--ink);color:#fff;font-weight:800;font-size:24px;display:flex;align-items:center;justify-content:center}
+.choice .n{font-weight:800;font-size:19px;line-height:1.15}
+.choice .c{font-weight:600;font-size:13px;color:var(--muted);margin-top:2px}
+.choice.sel{border-color:var(--team);background:color-mix(in srgb,var(--team) 10%,#fff)}
+.choice.sel .l{background:var(--team)}
+.choice[disabled]{cursor:default}
+.note{margin-top:16px;text-align:center;font-weight:700;font-size:15px;min-height:22px}
+.big{font-size:64px;text-align:center;margin:10px 0 0;font-weight:900;font-family:"Playfair Display",serif}
+.result{border-radius:20px;padding:24px 18px;text-align:center;color:#fff;margin-top:6px}
+.result.ok{background:var(--good)} .result.no{background:var(--bad)} .result.none{background:var(--muted)}
+.result h2{font-family:"Playfair Display",serif;font-size:40px;font-weight:900}
+.result p{font-weight:600;margin-top:6px;font-size:16px}
+.ans{display:flex;align-items:center;gap:14px;background:#fff;border-radius:16px;padding:12px;margin-top:16px;border:3px solid var(--good)}
+.ans img{width:70px;height:70px;border-radius:50%;object-fit:cover;object-position:center 25%}
+.ans .n{font-weight:800;font-size:19px}.ans .c{font-weight:600;font-size:13px;color:var(--muted)}
+.score{display:flex;gap:10px;margin-top:18px}
+.score div{flex:1;background:#fff;border-radius:14px;padding:12px;text-align:center;border-top:8px solid var(--c)}
+.score b{display:block;font-size:30px;font-weight:800}
+.score span{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--c)}
+.teampick{display:block;width:100%;margin-top:14px;padding:22px;border:0;border-radius:16px;color:#fff;font:800 22px Montserrat,sans-serif;cursor:pointer}
+.win{border-radius:22px;padding:28px 18px;text-align:center;color:#fff;background:var(--team);margin-top:10px}
+.win h2{font-family:"Playfair Display",serif;font-size:42px;font-weight:900;line-height:1.05}
+.win p{font-weight:700;margin-top:12px;font-size:17px;line-height:1.4}
+.pulse{width:16px;height:16px;border-radius:50%;background:var(--team);margin:26px auto 0;animation:p 1.4s infinite}
+@keyframes p{0%{transform:scale(.6);opacity:1}100%{transform:scale(2.4);opacity:0}}
+.switch{display:block;margin:34px auto 0;background:none;border:0;color:var(--muted);font:700 15px Montserrat,sans-serif;text-decoration:underline;cursor:pointer}
+.offline{position:fixed;left:0;right:0;bottom:0;background:#9b1c1c;color:#fff;text-align:center;font-weight:700;font-size:14px;padding:10px;display:none}
+.demo{position:fixed;top:6px;right:6px;background:var(--pink);color:#fff;font-weight:800;font-size:11px;padding:4px 8px;border-radius:999px}
+</style>
+</head>
+<body>
+<header><img src="images/logo.png" alt="TRMG — Transportation Revenue Management Group"><div class="stripe"><i></i><i></i><i></i><i></i><i></i><i></i></div></header>
+<div id="teambar"></div>
+<main id="app"><div class="pulse"></div></main>
+<div class="offline" id="offline">Reconnecting… check your wifi</div>
+
+<script>
+(function(){
+  const C = window.GAME_CONFIG, API = window.GameAPI, P = C.people, T = C.teams;
+  const app = document.getElementById("app"), LET = ["A","B","C","D"];
+  const DS = API.deviceStore;
+  if (API.demo) { const d=document.createElement("div"); d.className="demo"; d.textContent="DEMO"; document.body.appendChild(d); }
+
+  // ---- team ----
+  const urlTeam = new URLSearchParams(location.search).get("team");
+  let team = DS.get("tbf_team"), teamNote = "";
+  if (team && !T[team]) team = null;
+  if (!team && T[urlTeam]) { team = urlTeam; DS.set("tbf_team", team); }
+  else if (team && T[urlTeam] && urlTeam !== team) teamNote = "This phone is already on " + T[team].name + ".";
+  function applyTeam(){
+    if (!team) return;
+    document.documentElement.style.setProperty("--team", T[team].color);
+    const b = document.getElementById("teambar"); b.textContent = "You're on " + T[team].name; b.style.display = "block";
+    document.querySelector('meta[name="theme-color"]').content = T[team].color;
+  }
+  applyTeam();
+
+  // ---- local vote cache ----
+  let mine = {}; try { mine = JSON.parse(DS.get("tbf_votes")) || {}; } catch(e){ mine = {}; }
+  const saveMine = () => DS.set("tbf_votes", JSON.stringify(mine));
+
+  let state = null, key = "", sending = false, failures = 0;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+  function pickTeam(){
+    app.innerHTML = '<h1>Which team are you on?</h1><div class="sub">Check your name badge.</div>' +
+      Object.keys(T).map(t => '<button class="teampick" data-t="'+t+'" style="background:'+T[t].color+'">'+esc(T[t].name)+'</button>').join("");
+    app.querySelectorAll(".teampick").forEach(b => b.onclick = () => { team = b.dataset.t; DS.set("tbf_team", team); applyTeam(); key=""; tick(); });
+  }
+
+  function waiting(title, sub){
+    const canSwitch = Object.keys(mine).length === 0;
+    app.innerHTML = '<h1>'+title+'</h1><div class="sub">'+sub+'</div><div class="pulse"></div>' + (teamNote ? '<div class="note">'+esc(teamNote)+'</div>' : '') +
+      (canSwitch ? '<button class="switch" id="switch">Scanned the wrong code? Switch teams</button>' : '');
+    const sw = document.getElementById("switch");
+    if (sw) sw.onclick = () => { DS.del("tbf_team"); team = null; teamNote = ""; document.getElementById("teambar").style.display = "none"; key = ""; tick(); };
+  }
+
+  function roundOf(n){ return C.rounds[n-1]; }
+
+  function voteScreen(n, open){
+    const r = roundOf(n); if (!r) return waiting("Hang tight", "");
+    const sel = mine[n];
+    app.innerHTML = '<div class="kick">Round '+n+' of '+C.rounds.length+'</div><h1>'+(open?"Who's this baby?":"Voting closed")+'</h1>' +
+      '<div class="sub">'+(open ? "Look at the big screen and tap your guess. You can change it until voting closes." : "Eyes on the big screen for the answer…")+'</div>' +
+      '<div class="btns">' + r.options.map((id,i) =>
+        '<button class="choice'+(sel===id?" sel":"")+'" data-id="'+id+'"'+(open?"":" disabled")+'><span class="l">'+LET[i]+'</span><span><div class="n">'+esc(P[id].name)+'</div><div class="c">'+esc(P[id].company)+'</div></span></button>').join("") +
+      '</div><div class="note" id="note">'+(sel ? "Locked in: "+esc(P[sel].name) : "")+'</div>';
+    if (!open) return;
+    app.querySelectorAll(".choice").forEach(b => b.onclick = async () => {
+      if (sending) return; sending = true;
+      const id = b.dataset.id, note = document.getElementById("note");
+      app.querySelectorAll(".choice").forEach(x => x.classList.toggle("sel", x===b));
+      note.textContent = "Sending…";
+      try {
+        const res = await API.castVote(team, n, id);
+        if (res === "ok") { mine[n] = id; saveMine(); note.textContent = "Locked in: " + P[id].name; if (navigator.vibrate) navigator.vibrate(30); }
+        else if (res === "closed") { note.textContent = "Too late — voting just closed."; key=""; tick(); }
+        else if (res === "team_locked") { note.textContent = "This phone already voted for the other team."; }
+        else note.textContent = "Didn't go through — tap again.";
+      } catch(e) { note.textContent = "No connection — tap again."; app.querySelectorAll(".choice").forEach(x => x.classList.toggle("sel", mine[n]===x.dataset.id)); }
+      sending = false;
+    });
+  }
+
+  async function revealScreen(n){
+    const r = roundOf(n); let ans = r.baby, rows = [];
+    try { const a = await API.getAnswers(); const f = a.find(x=>+x.round===n); if (f) ans = f.answer; rows = await API.getScores(); } catch(e){}
+    if (!mine[n]) { try { const v = await API.getMyVote(n); if (v) { mine[n]=v.choice; saveMine(); } } catch(e){} }
+    const s = API.summarize(rows), my = mine[n];
+    const cls = !my ? "none" : (my===ans ? "ok" : "no");
+    const head = !my ? "No vote this round" : (my===ans ? "Correct!" : "Not this time");
+    const sub = !my ? "Jump back in on the next one." : (my===ans ? "Nice eye. Points for " + T[team].name + "." : "You picked " + esc(P[my].name) + ".");
+    app.innerHTML = '<div class="kick">Round '+n+' of '+C.rounds.length+'</div>' +
+      '<div class="result '+cls+'"><h2>'+head+'</h2><p>'+sub+'</p></div>' +
+      '<div class="ans"><img src="images/now/'+ans+'.jpg" alt=""><div><div class="c">That baby was</div><div class="n">'+esc(P[ans].name)+'</div><div class="c">'+esc(P[ans].company)+'</div></div></div>' +
+      scoreHtml(s) + '<div class="sub" style="margin-top:18px">Next baby coming up…</div>';
+  }
+
+  function scoreHtml(s){
+    return '<div class="score">' + ["credit","collections"].map(t =>
+      '<div style="--c:'+T[t].color+'"><span>'+esc(T[t].name.replace(/^Team /,""))+'</span><b>'+s[t].points+'</b></div>').join("") + '</div>';
+  }
+
+  async function finalScreen(){
+    let rows = []; try { rows = await API.getScores(); } catch(e){}
+    const s = API.summarize(rows);
+    if (!s.winner) { app.innerHTML = '<h1>It\'s a tie!</h1>' + scoreHtml(s) + '<div class="sub">Thanks for playing!</div>'; return; }
+    const won = s.winner === team;
+    app.innerHTML = (won
+      ? '<div class="win"><h2>'+esc(T[team].name)+' wins!</h2><p>'+esc(C.prizeNote)+'</p></div>'
+      : '<h1>'+esc(T[s.winner].name)+' wins!</h1><div class="sub">So close. Thanks for playing!</div>') + scoreHtml(s);
+  }
+
+  async function tick(){
+    if (!team) { if (key !== "pick") { key = "pick"; pickTeam(); } return; }
+    try {
+      state = await API.getState(); failures = 0; document.getElementById("offline").style.display = "none";
+    } catch(e) {
+      if (++failures >= 3) document.getElementById("offline").style.display = "block";
+      return;
+    }
+    const k = state.round + "|" + state.status;
+    if (k === key) return; key = k;
+    const n = state.round;
+    if (n === 0 || state.status === "idle") { mine = {}; saveMine(); }
+    if (state.status === "open" && mine[n]) {
+      try { const v = await API.getMyVote(n); if (!v) { delete mine[n]; saveMine(); } } catch(e){}
+    }
+    if (state.status === "final") return finalScreen();
+    if (state.status === "open") return voteScreen(n, true);
+    if (state.status === "closed") return voteScreen(n, false);
+    if (state.status === "revealed") return revealScreen(n);
+    waiting("Hang tight!", "The game hasn't started yet. Keep this page open — the first baby will pop up here automatically.");
+  }
+
+  async function loop(){ await tick(); setTimeout(loop, 1800 + Math.random()*600); }
+  loop();
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) { key=""; tick(); } });
+})();
+</script>
+</body>
+</html>
