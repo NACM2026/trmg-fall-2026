@@ -11,8 +11,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="TRMG 2026">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="img/icon-180.png">
-<link rel="icon" type="image/png" href="img/icon-180.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -208,7 +208,7 @@ nav button.on svg{stroke:var(--pink)}
 
 <header>
   <div class="brand">
-    <img src="img/trmg-logo.png" alt="TRMG — Transportation Revenue Management Group">
+    <img src="trmg-logo.png" alt="TRMG — Transportation Revenue Management Group">
     <div class="tag">Fall 2026<br>Clearwater Beach, FL</div>
   </div>
   <div class="stripe"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -261,7 +261,7 @@ nav button.on svg{stroke:var(--pink)}
   <!-- HOTEL -->
   <section class="view" id="v-hotel">
     <div class="hero">
-      <img src="img/beach.jpg" alt="Beach view at the Sheraton Sand Key">
+      <img src="beach.jpg" alt="Beach view at the Sheraton Sand Key">
       <div id="hotelName"></div>
     </div>
     <div class="card" id="wifiCard"></div>
@@ -290,7 +290,7 @@ nav button.on svg{stroke:var(--pink)}
 
 <!-- SPLASH: add to home screen -->
 <div class="splash" id="splash"><div class="wrap">
-  <img class="logo" src="img/trmg-logo.png" alt="TRMG">
+  <img class="logo" src="trmg-logo.png" alt="TRMG">
   <div class="stripe"><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <h1>Welcome to Clearwater Beach!</h1>
   <p class="lead">Fall 2026 Conference · Oct 18–20<br>Put this app on your home screen so the agenda, attendee list, and wifi are one tap away.</p>
@@ -318,7 +318,7 @@ const CONFIG = {
   WIFI_NETWORK: "MarriottBonvoy_Conference",
   WIFI_PASSWORD: "GROUPOCT26",
 
-  HOTEL_MAP_IMG: "img/hotel-map.jpg",
+  HOTEL_MAP_IMG: "hotel-map.jpg",
 
   HOTEL: {
     name: "Clearwater Beach Sheraton Resort on Sand Key",
@@ -339,23 +339,23 @@ const CONFIG = {
    ============================================================ */
 // Sponsors: add spon:"altus" (etc.) to any agenda item to show the logo there
 const SPONSORS = {
-  altus:  { name:"Altus Commercial Receivables", logo:"img/altus.png",  what:"Welcome Reception & all Breaks" },
-  synter: { name:"Synter Resource Group",        logo:"img/synter.png", what:"Monday Lunch" },
+  altus:  { name:"Altus Commercial Receivables", logo:"altus.png",  what:"Welcome Reception & all Breaks" },
+  synter: { name:"Synter Resource Group",        logo:"synter.png", what:"Monday Lunch" },
 };
 
 // Associate Members — logo shown on the Info tab and on matching roster cards.
 // "match" is tested against the Company column (case-insensitive).
 const ASSOCIATES = [
-  { name:"AFM",                           match:/\bafm\b/i,               logo:"img/assoc-afm.jpg" },
-  { name:"Altus Commercial Receivables",  match:/altus/i,                 logo:"img/assoc-altus.jpg" },
-  { name:"Bectran",                       match:/bectran/i,               logo:"img/assoc-bectran.jpg" },
-  { name:"Caine & Weiner",                match:/caine/i,                 logo:"img/assoc-caineweiner.jpg" },
-  { name:"Cass Information Systems, Inc.",match:/\bcass\b/i,              logo:"img/assoc-cass.jpg" },
-  { name:"Creditors Adjustment Bureau",   match:/creditors adjustment|\bcab\b/i, logo:"img/assoc-cab.jpg" },
-  { name:"Moody's",                       match:/moody/i,                 logo:"img/assoc-moodys.jpg" },
-  { name:"Sidetrade",                     match:/sidetrade/i,             logo:"img/assoc-sidetrade.jpg" },
-  { name:"Silent Partners Group",         match:/silent partner/i,        logo:"img/assoc-silentpartner.jpg" },
-  { name:"Synter Resource Group",         match:/synter/i,                logo:"img/assoc-synter.jpg" },
+  { name:"AFM",                           match:/\bafm\b/i,               logo:"assoc-afm.jpg" },
+  { name:"Altus Commercial Receivables",  match:/altus/i,                 logo:"assoc-altus.jpg" },
+  { name:"Bectran",                       match:/bectran/i,               logo:"assoc-bectran.jpg" },
+  { name:"Caine & Weiner",                match:/caine/i,                 logo:"assoc-caineweiner.jpg" },
+  { name:"Cass Information Systems, Inc.",match:/\bcass\b/i,              logo:"assoc-cass.jpg" },
+  { name:"Creditors Adjustment Bureau",   match:/creditors adjustment|\bcab\b/i, logo:"assoc-cab.jpg" },
+  { name:"Moody's",                       match:/moody/i,                 logo:"assoc-moodys.jpg" },
+  { name:"Sidetrade",                     match:/sidetrade/i,             logo:"assoc-sidetrade.jpg" },
+  { name:"Silent Partners Group",         match:/silent partner/i,        logo:"assoc-silentpartner.jpg" },
+  { name:"Synter Resource Group",         match:/synter/i,                logo:"assoc-synter.jpg" },
 ];
 const assocFor = company => ASSOCIATES.find(a=>a.match.test(company||""));
 
@@ -363,12 +363,12 @@ const assocFor = company => ASSOCIATES.find(a=>a.match.test(company||""));
 const spPic=(sp,big)=>sp.img?`<img src="${sp.img}" alt="">`:`<span class="sp-ini${big?" big":""}">${esc(sp.name.split(",")[0].split(" ").map(w=>w[0]).join("").slice(0,2))}</span>`;
 
 const SPEAKERS = {
-  wanda: { name:"Wanda Borges, Esq.", org:"Borges & Associates, LLC", img:"img/wanda.jpg", email:"wborges@borgeslawllc.com" },
-  rob:   { name:"Rob Carpenter", org:"VP Compliance, Trucksafe Consulting, LLC and Journalist, FreightWaves", img:"img/rob.jpg",
+  wanda: { name:"Wanda Borges, Esq.", org:"Borges & Associates, LLC", img:"wanda.jpg", email:"wborges@borgeslawllc.com" },
+  rob:   { name:"Rob Carpenter", org:"VP Compliance, Trucksafe Consulting, LLC and Journalist, FreightWaves", img:"rob.jpg",
     bio:"Rob Carpenter is an independent writer for FreightWaves, \"The Playbook,\" TruckSafe Consulting, Motive, and other companies across the freight, supply chain, risk and highway accident litigation spaces. He is a transportation risk and compliance expert and WHCA member covering White House policy, tariffs, and federal transportation regulation impacting the supply chain. He is an expert in accident analysis, fleet safety, risk and compliance. Rob spends most of his time as an expert witness and risk control consultant specializing in group and sole member captives. Rob is a CDL driver, former broker and fleet owner and spent over 2 decades behind the wheel of a truck across various modes of transport." },
-  paul:  { name:"Paul H. Runko", org:"Author and Advisor to the President & COO of Roadrunner Freight", img:"img/paul.jpg" },
-  jay:   { name:"Jay Snyder, CCE, ICCE", org:"Thunder Consulting", email:"Jay@ThunderConsultingGroup.com", img:"img/jay.jpg" },
-  chris: { name:"Chris Kuehl, PhD", org:"Armada Corporate Intelligence", img:"img/chris.jpg", email:"chris.kuehl@armadaci.com" },
+  paul:  { name:"Paul H. Runko", org:"Author and Advisor to the President & COO of Roadrunner Freight", img:"paul.jpg" },
+  jay:   { name:"Jay Snyder, CCE, ICCE", org:"Thunder Consulting", email:"Jay@ThunderConsultingGroup.com", img:"jay.jpg" },
+  chris: { name:"Chris Kuehl, PhD", org:"Armada Corporate Intelligence", img:"chris.jpg", email:"chris.kuehl@armadaci.com" },
 };
 
 // kind → color + label.  Times are local Clearwater time (Eastern).
@@ -489,7 +489,7 @@ function openSession(di,ii){
     ${noteBox(sessionKey(d,it), {type:"session", label:it.t, sub:`${d.label} · ${fmt(it.s)}${sp?" · "+sp.name:""}`, order:`${d.d}T${it.s}`})}
     ${sp?`<div class="who">${spPic(sp,true)}<div><b>${esc(sp.name)}</b><span>${esc(sp.org)}</span>${sp.email?`<a class="em" href="mailto:${esc(sp.email)}">${esc(sp.email)}</a>`:""}</div></div>
          ${sp.bio?`<div class="desc">${esc(sp.bio)}</div>`:""}`:""}
-    ${it.book?`<div class="book"><img src="img/book.jpg" alt="SMILEYBALLS: The Field Book"><div><b>SMILEYBALLS: The Field Book</b><br>Building Successful Companies from the Middle Up! — available on Amazon.</div></div>`:""}
+    ${it.book?`<div class="book"><img src="book.jpg" alt="SMILEYBALLS: The Field Book"><div><b>SMILEYBALLS: The Field Book</b><br>Building Successful Companies from the Middle Up! — available on Amazon.</div></div>`:""}
   `);
   wireNoteBox();
 }
